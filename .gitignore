@@ -1,0 +1,6 @@
+local-config.php
+*.log
+
+content/*
+!content/plugins/
+!content/themes/
