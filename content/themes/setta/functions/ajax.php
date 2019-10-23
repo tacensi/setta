@@ -12,28 +12,54 @@
  * Load More
  */
 
-add_action("wp_ajax_mg_infinite_posts", "mg_infinite_posts");
-add_action("wp_ajax_nopriv_mg_infinite_posts", "mg_infinite_posts");
+add_action("wp_ajax_setta_get_modulo", "setta_get_modulo");
+add_action("wp_ajax_nopriv_setta_get_modulo", "setta_get_modulo");
 
-function mg_infinite_posts() {
-	$paged = $_POST[ 'paged' ] ? $_POST[ 'paged' ] : 1;
-	$type = $_POST[ 'type' ] ? $_POST[ 'type' ] : 'noticia';
+function setta_get_modulo() {
 
-	$args = array(
-		'post_type' => $type,
-		'post_status' => 'publish',
-		'posts_per_page' => 12,
-		'paged' => $paged,
+	// Erro genérico na falta de post
+	if ( ! $_POST['mod_id'] ) {
+		die(
+			json_encode(
+				array(
+					'title' => 'Módulo não encontrado',
+					'body' => 'Não foi possível encontrar o módulo desejado.',
+				)
+			)
+		);
+	}
+	$mod_id = intval( trim( $_POST[ 'mod_id' ] ) );
+
+	$modulo = get_post( $mod_id );
+	
+	
+	if ( ! $modulo ) {
+
+		die(
+			json_encode(
+				array(
+					'title' => 'Módulo não encontrado',
+					'body' => 'Não foi possível encontrar o módulo desejado.',
+				)
+			)
+		);
+
+	}
+
+	$title = $modulo->post_title;
+	
+	// Content usa ob para carregar de um template part.
+	ob_start();
+	get_template_part( 'partials/modulo', 'single' );
+	$body = ob_get_contents();
+	ob_end_clean();
+
+	die (
+		json_enconde(
+			array(
+				'title' => $title,
+				'body'  => $body,
+			)
+		)
 	);
-
-	$query = new WP_Query( $args );
-
-	if ( $query->have_posts() ) :
-		while ( $query->have_posts() ) : $query->the_post();
-
-			get_template_part( 'layouts/partials/' . $type, 'list_item' );
-
-		endwhile;
-	endif;
-	die();
 }

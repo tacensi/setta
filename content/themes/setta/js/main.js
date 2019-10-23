@@ -11,7 +11,7 @@ jQuery(document).ready(function($){
 
 		$.ajax({
 			type: 'POST',
-			dataType: 'html',
+			dataType: 'json',
 			url: setta.ajaxUrl,
 			data: {
 				action: 'setta_get_modulo',
@@ -19,13 +19,23 @@ jQuery(document).ready(function($){
 			},
 			success: function(data){
 				if (data){
-					window.alert(data.message);
+					updateModulo(data);
 				}
 			},
 			error: function(data){
 				window.alert("Houve um erro com seu pedido. Se o erro persistir, contate o administrador.");
 			}
 		});
+	}
+
+	updateModulo = function (data) {
+		if (data.title) {
+			$('#modal-title').text(data.title);
+		}
+
+		if (data.body) {
+			$('#modal-body').text(data.body);
+		}
 	}
 
 });
