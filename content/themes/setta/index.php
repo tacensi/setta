@@ -56,6 +56,8 @@ get_header();
 			get_template_part( 'partials/modulo', '404' );
 		endif;
 
+		wp_reset_postdata();
+
 	endif;
 	?>
 

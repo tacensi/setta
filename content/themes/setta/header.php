@@ -16,12 +16,7 @@
 	<meta name="author" content="Setta">
 	<title>Setta - Trilhas</title>
 
-	<!-- Bootstrap core CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/all.css" rel="stylesheet">
-	<link rel="canonical" href="css/custom.css">
-
-</style>
+	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>

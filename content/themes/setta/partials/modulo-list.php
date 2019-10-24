@@ -3,7 +3,7 @@
 		<img src="https://loremflickr.com/320/240/brazil,rio?random=<?php the_ID(); ?>" alt="">
 		<div class="card-body">
 			<h4 class="my-0 font-weight-normal"><?php the_title() ?></h4>
-			<p class="card-text"><?php the_excerpt(); ?></p>
+			<div class="card-text"><?php the_excerpt(); ?></div>
 			<div class="d-flex justify-content-between align-items-center">
 				<!-- get custom field cadastrado minutos -->
 				<small class="text-muted"><i class="far fa-clock"></i> 9 mins</small>

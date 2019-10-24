@@ -31,8 +31,8 @@ function setta_get_modulo() {
 	$mod_id = intval( trim( $_POST[ 'mod_id' ] ) );
 
 	$modulo = get_post( $mod_id );
-	
-	
+
+
 	if ( ! $modulo ) {
 
 		die(
@@ -47,15 +47,13 @@ function setta_get_modulo() {
 	}
 
 	$title = $modulo->post_title;
-	
-	// Content usa ob para carregar de um template part.
-	ob_start();
-	get_template_part( 'partials/modulo', 'single' );
-	$body = ob_get_contents();
-	ob_end_clean();
+
+	$body = $modulo->post_content;
+
+	$body .= '<p>' . get_field( 'atividades', $modulo->ID ) . '<p>';
 
 	die (
-		json_enconde(
+		json_encode(
 			array(
 				'title' => $title,
 				'body'  => $body,
@@ -79,8 +77,8 @@ function setta_get_atividades() {
 	$mod_id = intval( trim( $_POST[ 'mod_id' ] ) );
 
 	$modulo = get_post( $mod_id );
-	
-	
+
+
 	if ( ! $modulo ) {
 
 		die(
@@ -104,7 +102,7 @@ function setta_get_atividades() {
 			'page' => $page,
 		)
 	);
-	
+
 	// Content usa ob para carregar de um template part.
 	ob_start();
 	get_template_part( 'partials/atividade', 'list' );
