@@ -8,8 +8,27 @@ jQuery(document).ready(function($){
 		getModulo(moduloId);
 	});
 
+
+	$(document).on('click', '.modulo-navigation', function(ev) {
+		ev.preventDefault();
+		var moduloId = $(this).attr('data-id');
+		getModulo(moduloId);
+	});
+
+	$(document).on('click', '.atividade-navigation', function(ev) {
+		ev.preventDefault();
+		var moduloId = $(this).attr('data-modulo');
+		var page = $(this).attr('data-page');
+		getAtividades(moduloId, page);
+	});
+
+	// $('.modulo-navigation').click(function(ev) {
+	// 	ev.preventDefault();
+	// 	var moduloId = $(this).data('id');
+	// 	getModulo(moduloId);
+	// });
+
 	getModulo = function (moduloId) {
-		var id = moduloId;
 
 		$.ajax({
 			type: 'POST',
@@ -17,7 +36,7 @@ jQuery(document).ready(function($){
 			url: setta.ajaxUrl,
 			data: {
 				action: 'setta_get_modulo',
-				mod_id: id,
+				mod_id: moduloId,
 			},
 			success: function(data){
 				if (data){
@@ -25,7 +44,7 @@ jQuery(document).ready(function($){
 				}
 			},
 			error: function(data){
-				window.alert("Houve um erro com seu pedido. Se o erro persistir, contate o administrador.");
+				window.alert("Houve um erro. Caso persista, contate o administrador.");
 			}
 		});
 	}
@@ -36,7 +55,68 @@ jQuery(document).ready(function($){
 		}
 
 		if (data.body) {
-			$('#modal-body').text(data.body);
+			$('#modal-body').html(data.body);
+		}
+
+		if (data.previous.id) {
+			$('.modulo-navigation.previous').attr('data-id', data.previous.id);
+			$('.modulo-navigation.previous').attr('title', data.previous.title);
+			$('.modulo-navigation.previous').attr('disabled', false );
+		} else {
+			$('.modulo-navigation.previous').attr('disabled', true );
+		}
+
+		if (data.next.id) {
+			$('.modulo-navigation.next').attr('data-id', data.next.id);
+			$('.modulo-navigation.next').attr('title', data.next.title);
+			$('.modulo-navigation.next').attr('disabled', false );
+		} else {
+			$('.modulo-navigation.next').attr('disabled', true );
+		}
+	}
+
+	getAtividades = function (moduloId, page) {
+
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: setta.ajaxUrl,
+			data: {
+				action: 'setta_get_atividades',
+				mod_id: moduloId,
+				page: page,
+			},
+			success: function(data){
+				if (data){
+					updateAtividades(data);
+				}
+			},
+			error: function(data){
+				window.alert("Houve um erro. Caso persista, contate o administrador.");
+			}
+		});
+	}
+
+
+
+	updateAtividades = function (data) {
+		if (data.body) {
+			$('#atividades-list').html(data.body);
+			console.log (data.body);
+		}
+
+		if (data.page > 1) {
+			$('.atividade-navigation.previous').attr('data-page', parseInt(data.page)-1);
+			$('.atividade-navigation.previous').attr('disabled', false );
+		} else {
+			$('.atividade-navigation.previous').attr('disabled', true );
+		}
+
+		if (data.page < data.total_pages) {
+			$('.atividade-navigation.next').attr('data-page', parseInt(data.page)+1);
+			$('.atividade-navigation.next').attr('disabled', false );
+		} else {
+			$('.atividade-navigation.next').attr('disabled', true );
 		}
 	}
 

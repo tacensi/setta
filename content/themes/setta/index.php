@@ -67,17 +67,16 @@ get_header();
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Lorem Ipsum</h5>
+				<h5 class="modal-title" id="modal-title"></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium et aliquam, vitae eveniet consectetur minus, sit aspernatur aperiam repudiandae pariatur quae dolor cupiditate explicabo nobis cumque, quia accusamus repellendus sequi.</p>
+			<div class="modal-body" id="modal-body">
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary">Próximo</button>
-				<button type="button" class="btn btn-primary">Anterior</button>
+			<div class="modal-footer d-flex justify-content-between align-items-center">
+				<button type="button" class="btn btn-primary modulo-navigation previous">Anterior</button>
+				<button type="button" class="btn btn-secondary modulo-navigation next ">Próximo</button>
 			</div>
 		</div>
 	</div>
